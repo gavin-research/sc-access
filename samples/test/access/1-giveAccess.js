@@ -1,0 +1,59 @@
+//ALICE DA ACCESO A BOB AL CODIGO 0XF73910...30E ASOCIADO AL HASH SALTEADO DE UN CERTIFICADO
+require("web3")
+const SCAccess = artifacts.require("Access");
+
+module.exports = async (callback) => {
+  const accounts = await web3.eth.getAccounts();
+  const alice = accounts[1];
+  const bob = accounts[2];
+  const aga = accounts[3];
+  const donehre = accounts[9];
+
+  const certificatecode = "Online Course";
+  const entity = bob;
+  console.log("BOB--- ", bob);
+
+  const scAccess = await SCAccess.deployed();
+
+  // get user nonce
+
+  const nonce = await scAccess.getNonce(alice);
+  const nonceNumber = nonce.toNumber();
+
+  console.log(nonceNumber);
+
+  const hashedCode = web3.utils.keccak256(nonceNumber.toString());
+  console.log({ hashedCode });
+
+  const signature = await web3.eth.sign(hashedCode, alice)
+  console.log({ signature });
+
+  // split signature
+  const r = signature.slice(0, 66);
+  const s = "0x" + signature.slice(66, 130);
+  const v = parseInt(signature.slice(130, 132), 16);
+  console.log({ r, s, v });
+
+
+  const structFirma = {
+    _hashCodeCert: hashedCode,
+    _r: r,
+    _s: s,
+    _v: v
+  };
+
+  const accessValue = 1;
+
+  await scAccess.modifyAccess(entity, certificatecode, structFirma, accessValue, {
+    from: alice,
+  });
+
+  const grantAccess = await scAccess.getPastEvents("ModifyAccess", {
+    fromBlock: 0,
+  });
+  
+  console.log(grantAccess);
+
+
+  callback();
+};

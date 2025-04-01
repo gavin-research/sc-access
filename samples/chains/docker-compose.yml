@@ -1,0 +1,9 @@
+version: "3.3"
+services:
+  ibc0:
+    build: ./geth2
+    ports:
+      - 8645:8545
+      - 8646:8546
+ 
+  
