@@ -45,12 +45,15 @@ Execute now `make test-getInfo` to, as bob, ask for the data in the mapping asso
 # Gas Consumption
 
 Execute `make test-gas` to get the gas consumption of the Smart Contract Functions for each petition. 
-Algorithm 1:
-- Contract: ContractA
-- Initial: 100000000000000000000
-- GasUsed: 126018
+- Gas Used to give Access to an Entity:  82933
 - GasPrice: 1000000000
-- Final: 99999873982000000000
+- Final: 99998879232000000000
+- Gas Used to get the Given Accesses to which Entities and Certificates:  621025
+- Gas Price:  10000000001000000000
+- Final: 99998258207000000000
+- Gas Used to get the data an Entity has Access to:  46958
+- Gas Price:  1000000000
+- Final: 99998258207000000000
 
 # To end the tests
 
